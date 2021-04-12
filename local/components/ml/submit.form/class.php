@@ -2,16 +2,23 @@
 
 use \Bitrix\Main\Loader;
 use \Bitrix\Highloadblock\HighloadBlockTable;
-use \Bitrix\Main\{ORM, ORM\Entity, ORM\Fields, Application};
-use Bitrix\Main\Engine\Contract\Controllerable;
-
-Loader::includeModule('highloadblock');
+use \Bitrix\Main\{ORM\Entity, Application, Context, Engine\Contract\Controllerable};
 
 class CHLOuter extends CBitrixComponent implements Controllerable
 {
-    public function onPrepareComponentParams($arParams)
+//    public function onPrepareComponentParams($arParams)
+//    {
+//
+//        return $arParams;
+//    }
+
+    public function executeComponent()
     {
-        if (!is_numeric($arParams)) {
+        Loader::includeModule('highloadblock');
+
+        $entityId = $this->arParams['ENTITY_VALUE'];
+
+        if (!is_numeric($entityId)) {
             $hlEntity = HighloadBlockTable::query()
                 ->addSelect('ID')
                 ->where('NAME', $this->arParams['ENTITY_VALUE'])
@@ -21,15 +28,21 @@ class CHLOuter extends CBitrixComponent implements Controllerable
             $this->arParams['ENTITY_VALUE'] = $hlEntity['ID'];
         }
 
-        return $arParams;
-    }
+        global $USER_FIELD_MANAGER;
+        $arFields = $USER_FIELD_MANAGER->GetUserFields('HLBLOCK_' . $entityId, 0, Context::getCurrent()->getLanguage());
+        $enum = new \CUserFieldEnum;
 
-    public function executeComponent()
-    {
-        self::onPrepareComponentParams($this->arParams['ENTITY_VALUE']);
+        $arRes = [];
 
-        $entityId = $this->arParams['ENTITY_VALUE'];
+        foreach ($arFields as $value) {
+            $arRes[$value['USER_TYPE_ID']][$value['ID']] = $value;
+            if ($value['USER_TYPE_ID'] == 'enumeration') {
+                $listValue = $enum->GetList([], ['USER_FIELD_ID' => $value['ID']]);
+                $arRes[$value['USER_TYPE_ID']][$value['ID']]['LIST_VALUES'] = $listValue->arResult;
+            }
+        }
 
+        /*
         $usersFields = [
             (new Fields\IntegerField('ID')),
             (new Fields\StringField('ENTITY_ID')),
@@ -60,6 +73,7 @@ class CHLOuter extends CBitrixComponent implements Controllerable
         $refLangEntity = self::getEntity(
             'LangField', $langFields, 'UserLangFields', 'b_user_field_lang'
         );
+
 
         $customUserClass = $userFieldsEntity->getDataClass();
 
@@ -111,24 +125,34 @@ class CHLOuter extends CBitrixComponent implements Controllerable
                 $arrFields[$userField['USER_TYPE_ID']][$userField['FIELD_NAME']]['NAME_RU'] = $userField['TITLE_RU'];
             }
         }
+        */
 
-        $this->arResult['USERS_FIELDS'] = $arrFields;
-        $this->arResult['UNIQUE_DATA_TYPE'] = array_keys($arrFields);
+        $this->arResult['USERS_FIELDS'] = $arRes;
+        $this->arResult['UNIQUE_DATA_TYPE'] = array_keys($arRes);
         $this->arResult['HL_ID'] = $entityId;
+
+        $this->arResult['SIGNATURE'] = $this->getSignedParameters();
 
         $this->includeComponentTemplate();
     }
 
-    public static function getEntity(string $name, array $fields, string $nameSpace, string $tableName)
+//    public static function getEntity(string $name, array $fields, string $nameSpace, string $tableName)
+//    {
+//        return Entity::compileEntity(
+//            $name,
+//            $fields,
+//            [
+//                'namespace' => $nameSpace,
+//                'table_name' => $tableName
+//            ]
+//        );
+//    }
+
+    protected function listKeysSignedParameters()
     {
-        return Entity::compileEntity(
-            $name,
-            $fields,
-            [
-                'namespace' => $nameSpace,
-                'table_name' => $tableName
-            ]
-        );
+        return [
+            'ENTITY_VALUE'
+        ];
     }
 
     public function configureActions()
@@ -142,18 +166,22 @@ class CHLOuter extends CBitrixComponent implements Controllerable
 
     public function sendAnswerAction()
     {
-        $arrRequest = Application::getInstance()->getContext()->getRequest()->toArray()['post'];
-        $HLId = array_pop($arrRequest);
+//        throw new \Bitrix\Main\SystemException('test execp');
+
+        Loader::includeModule('highloadblock');
+
+        $arrRequest = Application::getInstance()->getContext()->getRequest()->toArray();
+        $HLId = $this->arParams['ENTITY_VALUE'];
 
         $ansForUser = 'Ошибка заполнения';
-//        if (!empty($HLId) && !empty($arrRequest)) {
-//            $entityClass = HighloadBlockTable::compileEntity($HLId)->getDataClass();
-//
-//            $addResult = $entityClass::add($arrRequest);
-//            $arrError = $addResult->getErrorMessages();
-//            $ansForUser = (count($arrError) == 0)?'Спасибо за ваше мнение!':implode($arrError);
-//        }
+        if (!empty($HLId) && !empty($arrRequest)) {
+            $entityClass = HighloadBlockTable::compileEntity($HLId)->getDataClass();
 
-        return $arrRequest;
+            $addResult = $entityClass::add($arrRequest);
+            $arrError = $addResult->getErrorMessages();
+            $ansForUser = (count($arrError) == 0) ? 'Спасибо за ваше мнение!' : implode($arrError);
+        }
+
+        return $ansForUser;
     }
 }
