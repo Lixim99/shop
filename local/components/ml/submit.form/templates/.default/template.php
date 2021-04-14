@@ -18,15 +18,14 @@ CJSCore::Init(["jquery", "ajax", "fx"]);
                         </label><br>
                         <?if ($field['SETTINGS']['ROWS'] > 1):?>
                             <textarea
-                                <?=($field['MANDATORY'] == 'Y') ? 'required' : ''?>
-                                name="<?=$field['FIELD_NAME']?>"
+                                name="fields[<?=$field['FIELD_NAME']?>]"
                                 cols="<?=$field['SETTINGS']['SIZE']?>"
                                 rows="<?=$field['SETTINGS']['ROWS']?>"
                             ></textarea><br>
                         <?else:?>
                             <input
-                                <?=($field['MANDATORY'] == 'Y') ? 'required' : ''?>
                                     type="text"
+                                    name="fields[<?=$field['FIELD_NAME']?>]"
                                     size="<?=$field['SETTINGS']['SIZE']?>"
                             ><br>
                     <?
@@ -39,7 +38,7 @@ CJSCore::Init(["jquery", "ajax", "fx"]);
                         <label for="<?=$field['FIELD_NAME']?>">
                             <?=(!empty($field["LIST_COLUMN_LABEL"]))?$field["LIST_COLUMN_LABEL"]:$field['FIELD_NAME']?>
                         </label><br>
-                        <input <?=($field['MANDATORY'] == 'Y') ? 'required' : ''?> name="<?=$field['FIELD_NAME']?>" type="checkbox">
+                        <input <?=($field['MANDATORY'] == 'Y') ? 'required' : ''?> name="fields[<?=$field['FIELD_NAME']?>]" type="checkbox">
                         <br>
                     <?
                     endforeach;
@@ -50,7 +49,7 @@ CJSCore::Init(["jquery", "ajax", "fx"]);
                         <label for="<?=$field['FIELD_NAME']?>">
                             <?=(!empty($field["LIST_COLUMN_LABEL"]))?$field["LIST_COLUMN_LABEL"]:$field['FIELD_NAME']?>
                         </label><br>
-                        <select name="<?=$field['FIELD_NAME']?>">
+                        <select name="fields[<?=$field['FIELD_NAME']?>]">
                             <?foreach ($field['LIST_VALUES'] as $sectValue):?>
                                 <option value="<?=$sectValue['ID']?>"><?=$sectValue['VALUE']?></option>
                             <?endforeach;?>
@@ -71,7 +70,7 @@ CJSCore::Init(["jquery", "ajax", "fx"]);
                 event.preventDefault();
                 let formData = new FormData(event.target),
                     signatureParams = formData.get('signedParams'),
-                    hiddenDiv = formData.get('submitAnswer');
+                    hiddenDiv = BX('submitAnswer');
 
                 formData.delete('signedParams');
 
@@ -86,35 +85,4 @@ CJSCore::Init(["jquery", "ajax", "fx"]);
             });
         });
     </script>
-
-<!--
-        $(function () {
-
-        });
-        fForm = $('#feedForm');
-        // $.on('submit', fForm, function () {
-        //
-        // });
-        fForm.submit((e) => {
-            e.preventDefault();
-            fForm.append('<input type="hidden" name="highload_value" value="' + <?/*=json_encode($arResult['HL_ID'])*/?> +'" /> ');
-
-            // BX.ajax.runComponentAction('ml:submit.form', 'sendAnswer', {
-            //     mode:'class',
-            //     data: {post: fForm.serialize()},
-            // }).then(function (response) {
-            //     console.log(response);
-            //     $('#submitAnswer').html(response).show();
-            // });
-
-            $.ajax({
-                type: fForm.attr('method'),
-                url: "/feedSubmit.php",
-                data: fForm.serialize(),
-                success: (data) => {
-                    $('#submitAnswer').html(data).show();
-                },
-            });
-        })
--->
 <?endif;?>

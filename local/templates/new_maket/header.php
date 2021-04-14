@@ -1,5 +1,5 @@
-<?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?
+<?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+
 use Bitrix\Main\Page\Asset;
 
 global $APPLICATION;
@@ -25,25 +25,17 @@ Asset::getInstance()
 Asset::getInstance()
     ->addString("<link rel='icon' type='image/png' sizes='16x16' href='".SITE_TEMPLATE_PATH."/favicon-16x16.png'>");
 
-//Asset::getInstance()->addJs('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js');
-//Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/jquery.fancybox.js');
-//Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/bootstrap.min.js');
-//Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/jquery.flexslider-min.js');
-//Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/jquery.waypoints.min.js');
-//Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/retina.min.js');
-//Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/modernizr.js');
-//Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/main.js');
+Asset::getInstance()->addJs('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js');
+Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/bootstrap.min.js');
+Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/jquery.flexslider-min.js');
+Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/jquery.fancybox.pack.js');
+Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/jquery.waypoints.min.js');
+Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/retina.min.js');
+Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/modernizr.js');
+Asset::getInstance()->addJs(SITE_TEMPLATE_PATH . '/js/main.js');
+
 ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery.min.js"><\/script>')</script>
-<script src="<?=SITE_TEMPLATE_PATH?>/js/bootstrap.min.js"></script>
-<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery.flexslider-min.js"></script>
-<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery.fancybox.pack.js"></script>
-<script src="<?=SITE_TEMPLATE_PATH?>/js/jquery.waypoints.min.js"></script>
-<script src="<?=SITE_TEMPLATE_PATH?>/js/retina.min.js"></script>
-<script src="<?=SITE_TEMPLATE_PATH?>/js/modernizr.js"></script>
-<script src="<?=SITE_TEMPLATE_PATH?>/js/main.js"></script>
-<title><?=$APPLICATION->ShowTitle();?></title>
+<title><?$APPLICATION->ShowTitle();?></title>
 </head>
 <body>
 <?$APPLICATION->ShowPanel();?>
@@ -61,5 +53,5 @@ Asset::getInstance()
                 </ul>
             </nav>
             <a href="#" class="nav-toggle">Menu<span></span></a>
-        </div><!-- header content -->
-    </header><!-- header -->
+        </div>
+    </header>
