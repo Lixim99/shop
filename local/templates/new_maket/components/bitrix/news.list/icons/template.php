@@ -24,12 +24,12 @@ $this->setFrameMode(true); ?>
                     <?if (!empty($arItem["CODE"])):?>
                         <span class="icon icon-<?=$arItem["CODE"]?>"></span>
                     <?endif;?>
-                    <?if (!empty($arItem['DETAIL_TEXT'])):?>
-                        <div class="feature-content">
-                            <h5><?=$arItem['NAME']?></h5>
-                            <p><?=$arItem['DETAIL_TEXT']?></p>
-                        </div>
-                    <?endif;?>
+                    <div class="feature-content">
+                        <h5><?=$arItem['NAME']?></h5>
+                        <?if (!empty($arItem['DETAIL_TEXT'])):?>
+                        <p><?=$arItem['DETAIL_TEXT']?></p>
+                        <?endif;?>
+                    </div>
                 </div>
             <?endforeach;?>
         </div>
