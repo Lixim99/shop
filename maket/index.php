@@ -1,24 +1,8 @@
-<?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
-	"bitrix:main.include",
-	"top_templ",
-	Array(
-		"AREA_FILE_SHOW" => "file",
-		"COMPONENT_TEMPLATE" => ".default",
-		"EDIT_TEMPLATE" => "",
-		"PATH" => "/maket/top.php"
-	)
-);?>
-</section>
-<!-- Дома переделать под один класс -->
-<?//$APPLICATION->IncludeComponent(
-//	"ml:main.outer",
-//	"",
-//[]
-//);?>
+<?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");?>
+<?$APPLICATION->SetTitle("ActiveBox");?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list", 
-	"icons_list", 
+	"icons",
 	array(
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"ADD_SECTIONS_CHAIN" => "N",
@@ -51,7 +35,7 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
 		"INCLUDE_SUBSECTIONS" => "Y",
 		"MESSAGE_404" => "",
-		"NEWS_COUNT" => "20",
+		"NEWS_COUNT" => "6",
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"PAGER_DESC_NUMBERING" => "N",
 		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -78,13 +62,13 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"SORT_ORDER1" => "DESC",
 		"SORT_ORDER2" => "ASC",
 		"STRICT_SECTION_CHECK" => "N",
-		"COMPONENT_TEMPLATE" => "icons_list"
+		"COMPONENT_TEMPLATE" => "icons"
 	),
 	false
 );?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list", 
-	"pictures_list", 
+	"pictures",
 	array(
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"ADD_SECTIONS_CHAIN" => "N",
@@ -94,7 +78,7 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
 		"CACHE_FILTER" => "N",
-		"CACHE_GROUPS" => "Y",
+		"CACHE_GROUPS" => "N",
 		"CACHE_TIME" => "36000000",
 		"CACHE_TYPE" => "A",
 		"CHECK_DATES" => "Y",
@@ -118,7 +102,7 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
 		"INCLUDE_SUBSECTIONS" => "Y",
 		"MESSAGE_404" => "",
-		"NEWS_COUNT" => "20",
+		"NEWS_COUNT" => "8",
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"PAGER_DESC_NUMBERING" => "N",
 		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -145,13 +129,13 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"SORT_ORDER1" => "DESC",
 		"SORT_ORDER2" => "ASC",
 		"STRICT_SECTION_CHECK" => "N",
-		"COMPONENT_TEMPLATE" => "pictures_list"
+		"COMPONENT_TEMPLATE" => "pictures"
 	),
 	false
 );?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list", 
-	"authors_list", 
+	"authors",
 	array(
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"ADD_SECTIONS_CHAIN" => "N",
@@ -161,7 +145,7 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
 		"CACHE_FILTER" => "N",
-		"CACHE_GROUPS" => "Y",
+		"CACHE_GROUPS" => "N",
 		"CACHE_TIME" => "36000000",
 		"CACHE_TYPE" => "A",
 		"CHECK_DATES" => "Y",
@@ -185,7 +169,7 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
 		"INCLUDE_SUBSECTIONS" => "Y",
 		"MESSAGE_404" => "",
-		"NEWS_COUNT" => "20",
+		"NEWS_COUNT" => "4",
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"PAGER_DESC_NUMBERING" => "N",
 		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -218,13 +202,13 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"SORT_ORDER1" => "DESC",
 		"SORT_ORDER2" => "ASC",
 		"STRICT_SECTION_CHECK" => "N",
-		"COMPONENT_TEMPLATE" => "authors_list"
+		"COMPONENT_TEMPLATE" => "authors"
 	),
 	false
 );?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list", 
-	"slider_list", 
+	"slider",
 	array(
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"ADD_SECTIONS_CHAIN" => "N",
@@ -234,7 +218,7 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
 		"CACHE_FILTER" => "N",
-		"CACHE_GROUPS" => "Y",
+		"CACHE_GROUPS" => "N",
 		"CACHE_TIME" => "36000000",
 		"CACHE_TYPE" => "A",
 		"CHECK_DATES" => "Y",
@@ -258,7 +242,7 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
 		"INCLUDE_SUBSECTIONS" => "Y",
 		"MESSAGE_404" => "",
-		"NEWS_COUNT" => "20",
+		"NEWS_COUNT" => "2",
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"PAGER_DESC_NUMBERING" => "N",
 		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -286,17 +270,8 @@ $APPLICATION->SetTitle("ActiveBox");?><?$APPLICATION->IncludeComponent(
 		"SORT_ORDER1" => "DESC",
 		"SORT_ORDER2" => "ASC",
 		"STRICT_SECTION_CHECK" => "N",
-		"COMPONENT_TEMPLATE" => "slider_list"
+		"COMPONENT_TEMPLATE" => "slider"
 	),
 	false
 );?>
-<?$APPLICATION->IncludeComponent(
-	"bitrix:main.include",
-	"download_templ",
-	Array(
-		"AREA_FILE_SHOW" => "file",
-		"COMPONENT_TEMPLATE" => ".default",
-		"EDIT_TEMPLATE" => "",
-		"PATH" => "/maket/download.php"
-	)
-);?><?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+<?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

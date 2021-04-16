@@ -1,18 +1,30 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();?>
+<?$APPLICATION->IncludeComponent(
+	"bitrix:main.include", 
+	".default", 
+	array(
+		"AREA_FILE_SHOW" => "file",
+		"COMPONENT_TEMPLATE" => ".default",
+		"EDIT_TEMPLATE" => "",
+		"PATH" => SITE_TEMPLATE_PATH."/download.php"
+	),
+	false
+);?>
 <footer class="footer">
     <?$APPLICATION->IncludeComponent(
         "bitrix:main.include",
-        "footer_incl",
-        [
+        ".default",
+        array(
             "AREA_FILE_SHOW" => "file",
             "COMPONENT_TEMPLATE" => ".default",
             "EDIT_TEMPLATE" => "",
-            "PATH" => SITE_TEMPLATE_PATH . "/footer_incl.php"
-        ]
+            "PATH" => SITE_TEMPLATE_PATH."/footer_incl.php"
+        ),
+        false
     );?>
     <?$APPLICATION->IncludeComponent(
         "bitrix:main.include",
-        "footer_rights",
+        ".default",
         [
             "AREA_FILE_SHOW" => "file",
             "COMPONENT_TEMPLATE" => ".default",
