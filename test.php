@@ -336,3 +336,56 @@ $rsProps = ElementPropertyTable::query()
     ])
     ->exec();
 
+/**
+ * Пример "ручного кеша"
+ */
+if (!empty($arParams['ORGANIZATIONS_IBLOCK_ID']) and Loader::includeModule('iblock')) {
+
+    $cache = Application::getInstance()->getCache();
+    $taggedCache = Application::getInstance()->getTaggedCache();
+
+    $cacheId = md5(serialize(array_merge($arParams, [$ElementID])));
+
+    if ($cache->initCache($arParams['CACHE_TIME'], $cacheId, "/iblock/projects")) {
+        $arOrganizationsIds = $cache->getVars();
+    } elseif ($cache->startDataCache()) {
+        $taggedCache->startTagCache("/iblock/projects");
+        $taggedCache->registerTag("iblock_id_" . $arParams['ORGANIZATIONS_IBLOCK_ID']);
+        $taggedCache->registerTag("iblock_id_" . $arParams['PROGRAMS_IBLOCK_ID']);
+
+        $arPrograms = \Bitrix\Iblock\ElementPropertyTable::query()
+            ->where([
+                ['VALUE', $ElementID],
+                ['PROPERTY.CODE', 'PROGRAM_ORGANIZER']
+            ])
+            ->setSelect(['PROGRAM_ID' => 'ELEMENT.ID'])
+            ->registerRuntimeField('PROPERTY', [
+                'data_type' => '\Bitrix\Iblock\PropertyTable',
+                'reference' => ['this.IBLOCK_PROPERTY_ID' => 'ref.ID']
+            ])
+            ->exec()
+            ->fetchAll();
+
+        $arProgramsIds = array_column($arPrograms, 'PROGRAM_ID');
+
+        if (!empty($arProgramsIds)) {
+            $arOrganizations = \Bitrix\Iblock\ElementPropertyTable::query()
+                ->where('PROPERTY.CODE', 'ORGANIZATIONS')
+                ->whereIn('IBLOCK_ELEMENT_ID', $arProgramsIds)
+                ->setSelect(['PROP_ID' => 'VALUE'])
+                ->registerRuntimeField('PROPERTY', [
+                    'data_type' => '\Bitrix\Iblock\PropertyTable',
+                    'reference' => ['this.IBLOCK_PROPERTY_ID' => 'ref.ID']
+                ])
+                ->exec()
+                ->fetchAll();
+
+            $arOrganizationsIds = array_column($arOrganizations, 'PROP_ID');
+        }
+        $taggedCache->endTagCache();
+        $cache->endDataCache((!empty($arOrganizationsIds) ? $arOrganizationsIds : 0));
+    } else {
+        $cache->abortDataCache();
+        $arOrganizationsIds = 0;
+    }
+}
