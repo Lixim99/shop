@@ -5,6 +5,7 @@
                  MMMM88&&&&&&&
      *           MMMLITVINOV&&&
                  MMM88&&&&&&&&
+
                  'MMM88&&&&&&'
                    'MMM8&&&'      *
           |\___/|
@@ -181,7 +182,8 @@ $fileEntity = FileTable::getEntity();
 //echo '</pre>';
 $rs =
     (new Query($elemEntity))
-        ->setSelect([
+    ->where('ACTIVE')
+    ->setSelect([
             'ID',
             'NAME',
             'PREVIEW_PICTURE',
@@ -306,4 +308,31 @@ echo '</pre>';
 //    var_dump($obj->getUfFile());
 //    echo '</pre>';
 //}
+
+$rsProps = ElementPropertyTable::query()
+    ->where([
+        ['IBLOCK_ELEMENT_ID', $ElementID],
+        ['ELEMENT.IBLOCK_ID', $arParams['IBLOCK_ID']]
+    ])
+    ->where(Query::filter()
+        ->logic('or')
+        ->where('PROPERTY.PROPERTY_TYPE', 'E')
+        ->where(Query::filter()
+            ->where([
+                ['PROPERTY.PROPERTY_TYPE', 'S'],
+                ['PROPERTY.USER_TYPE', 'directory']
+            ])
+        )
+    )
+    ->setSelect($arSelect)
+    ->addOrder('PROPERTY.SORT', 'ASC')
+
+    /**
+     * min runtime field
+     */
+    ->registerRuntimeField('PROPERTY', [
+        'data_type' => '\Bitrix\Iblock\PropertyTable',
+        'reference' => ['this.IBLOCK_PROPERTY_ID' => 'ref.ID']
+    ])
+    ->exec();
 
